@@ -71,6 +71,33 @@ flowchart TB
 
 ---
 
+## Included Tooling & Packages
+
+### AI & Developer Agents
+* **Antigravity CLI (`agy`)**: Google Antigravity agent CLI configured for Vertex AI (`scripts/run-antigravity.sh`).
+
+### Cloud & Infrastructure
+* **Google Cloud SDK (`gcloud`)**: Official GCP management CLI.
+* **OpenTofu (`tofu`)**: Open-source Infrastructure as Code engine.
+
+### Containers & Build Tooling
+* **Docker CE**: Container daemon and CLI (configured with `/mnt/data/docker` storage).
+* **Cloud-Native Buildpacks (`pack`)**: Build OCI container images from source code without Dockerfiles.
+
+### Languages & Runtimes
+* **Node.js 22**: JavaScript runtime with `npm` and `npx`.
+* **Python 3**: Complete environment bundled with `pip`, `ipykernel`, `jupyter`, and `notebook`.
+
+### Remote Desktop & GUI
+* **Xfce4**: Lightweight Linux desktop environment.
+* **Chrome Remote Desktop**: Browser-based remote GUI streaming.
+* **Google Chrome**: Web browser.
+
+### Terminal & Productivity Utilities
+* `ripgrep` (`rg`), `tmux`, `htop`, `tree`, `jq`, `rsync`, `curl`, `wget`, `unzip`, `file`, `git`.
+
+---
+
 ## Configuration (`terraform.tfvars`)
 
 Copy `infrastructure/terraform.tfvars.example` to `infrastructure/terraform.tfvars`:
