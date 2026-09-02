@@ -1,0 +1,15 @@
+/app-mod/spring*
+/plans
+logs/
+/reports
+*.log
+/infrastructure/terraform.tfvars
+.venv
+.terraform
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+terraform.tfstate
+infrastructure/tfplan
+infrastructure/terraform.tfstate.backup
+infrastructure/terraform.tfstate.*.backup
+.env

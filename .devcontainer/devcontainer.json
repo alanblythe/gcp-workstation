@@ -1,0 +1,43 @@
+{
+	"name": "Python 3.11 & Jupyter",
+	"updateRemoteUserUID": false,
+	"image": "mcr.microsoft.com/devcontainers/python:3.11",
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": "true",
+			"configureZshAsDefaultShell": "true",
+			"installOhMyZsh": "true",
+			"upgradePackages": "false"
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "20"
+		},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+			"moby": false
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python"
+			},
+			"extensions": [
+				"ms-python.python",
+				"ms-toolsai.jupyter",
+				"ms-toolsai.vscode-jupyter-cell-tags",
+				"ms-toolsai.jupyter-renderers",
+				"ms-toolsai.jupyter-keymap",
+				"valterc.jupyter-autorun",
+				"michelemelluso.gitignore",
+				"vstirbu.vscode-mermaid-preview",
+				"ms-vscode.live-server"
+			]
+		}
+	},
+	"mounts": [
+		"source=${localEnv:HOME}/.config/gcloud,target=/home/vscode/.config/gcloud,type=bind",
+		"source=${localEnv:HOME}/.gemini,target=/home/vscode/.gemini,type=bind"
+	],
+	"runArgs": ["--network=host"],
+	"postCreateCommand": "./scripts/post-create.sh"
+}

@@ -1,0 +1,23 @@
+{
+  "context": {
+    "fileFiltering": {
+      "respectGitIgnore": false
+    }
+  },
+  "mcpServers": {
+    "context7": {
+      "httpUrl": "https://mcp.context7.com/mcp"
+    }
+  },
+  "allowPreviewModels": true,
+  "ide": {
+    "enabled": false,
+    "autoConnect": false,
+    "hasSeenNudge": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "vertex-ai"
+    }
+  }
+}

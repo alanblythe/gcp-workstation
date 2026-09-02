@@ -1,0 +1,22 @@
+project_id = "my-project"
+region     = "us-central1"
+zone       = "us-central1-a"
+
+network_name    = "workstation-network"
+subnetwork_name = "workstation-subnet"
+subnetwork_cidr = "10.0.0.0/24"
+
+cluster_id = "workstation-cluster"
+
+config_id         = "n2-standard-8-config"
+machine_type      = "n2-standard-8"
+boot_disk_size_gb = 200
+
+workstation_id = "my-workstation"
+
+# OS flavor for the GCE workstation VM. Default keeps the existing Ubuntu +
+# startup-script build. Set to "nixos" (and provide nixos_image) to boot the
+# image built from infrastructure/nixos/. See docs/nix-migration.md.
+os_flavor = "ubuntu"
+# nixos_image          = "projects/YOUR_PROJECT_ID/global/images/family/nixos-workstation"
+# create_nixos_sibling = false

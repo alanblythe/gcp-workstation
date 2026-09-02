@@ -1,0 +1,13 @@
+# Build Artifacts & Dependencies
+**/target/
+**/build/
+**/.gradle/
+**/.mvn/
+.venv/
+__pycache__/
+
+# Version Control & IDE Settings
+.git/
+.idea/
+.vscode/
+**/.DS_Store
