@@ -1,15 +1,56 @@
-/app-mod/spring*
-/plans
-logs/
-/reports
-*.log
-/infrastructure/terraform.tfvars
-.venv
-.terraform
+# Terraform / OpenTofu
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+*tfplan*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
 .terraform.lock.hcl
 .terraform.tfstate.lock.info
-terraform.tfstate
-infrastructure/tfplan
-infrastructure/terraform.tfstate.backup
-infrastructure/terraform.tfstate.*.backup
+
+# Environment & Secrets
 .env
+.env.*
+*.env
+*.pem
+*.key
+id_rsa*
+id_ecdsa*
+id_ed25519*
+
+# Nix build outputs
+result
+result-*
+
+# Python & Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.ipynb_checkpoints/
+
+# Logs & Reports
+logs/
+*.log
+/reports
+/plans
+
+# OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
