@@ -24,6 +24,48 @@ A repeatable Terraform configuration that provisions:
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart TB
+    subgraph Client["Local Machine"]
+        VSCode["VS Code (Remote - SSH)"]
+        Browser["Chrome Remote Desktop Client"]
+    end
+
+    subgraph GCP["Google Cloud Platform"]
+        IAP["Identity-Aware Proxy (IAP)"]
+
+        subgraph VPC["VPC Network (Private Subnet)"]
+            subgraph VM["Compute Engine (workstation-vm)"]
+                direction TB
+                OS["Ubuntu 24.04 / NixOS<br/>(No External IP)"]
+                GUI["Xfce4 Desktop &amp; CRD Daemon"]
+                Nix["Nix Flake Toolchain<br/>(gcloud, tofu, pack, gemini)"]
+                Home["/home/user (Bind Mount)"]
+            end
+
+            NAT["Cloud Router &amp; Cloud NAT"]
+            DataDisk[("Persistent SSD<br/>(/mnt/data)")]
+        end
+
+        Shutdown["Nightly Shutdown Policy<br/>(10:00 PM Stop)"]
+    end
+
+    Internet["Internet / Package Mirrors"]
+
+    VSCode -->|"SSH via IAP (Port 22)"| IAP
+    IAP --> OS
+    Browser -->|"WebRTC Session"| GUI
+    VM --- DataDisk
+    DataDisk -.->|"Bind Mount"| Home
+    OS --> NAT
+    NAT -->|"Outbound Egress"| Internet
+    Shutdown -.->|"Automated Stop"| VM
+```
+
+---
+
 ## Configuration (`terraform.tfvars`)
 
 Copy `infrastructure/terraform.tfvars.example` to `infrastructure/terraform.tfvars`:
