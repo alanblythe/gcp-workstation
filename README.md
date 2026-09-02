@@ -19,7 +19,7 @@ A repeatable Terraform configuration that provisions:
 
 * **Networking**: Private subnetwork with no external IPs. Inbound traffic uses Identity-Aware Proxy (IAP) tunnels. Outbound traffic routes through Cloud NAT.
 * **Persistent Data**: User home (`/home/<user>`) bind-mounts from a dedicated persistent SSD (`/mnt/data`). Data and dotfiles survive OS reinstalls.
-* **Tooling**: Base GUI and system packages install via startup scripts. User tools (`gcloud`, `opentofu`, `pack`, `jupyter`, `gemini-cli`) install via a Nix profile flake.
+* **Tooling**: Base GUI and system packages install via startup scripts. User tools (`gcloud`, `opentofu`, `pack`, `jupyter`, `antigravity-cli`) install via a Nix profile flake and post-create bootstrap.
 * **Cost Controls**: An automated schedule stops the VM nightly at 10:00 PM.
 
 ---
@@ -45,7 +45,7 @@ flowchart TB
         subgraph VPC["VPC Network: <code>workstation-vpc</code>"]
             SUBNET["Subnet: <code>workstation-subnet</code><br/>(10.10.0.0/24 - Private IP Only)"]
 
-            VM["Compute Engine VM: <code>workstation-vm</code><br/>• Machine: n2-standard-8 (No Public IP)<br/>• OS: Ubuntu 24.04 / NixOS<br/>• Desktop: Xfce4 + CRD Service<br/>• Tooling: Nix Flake Profile"]
+            VM["Compute Engine VM: <code>workstation-vm</code><br/>• Machine: n2-standard-8 (No Public IP)<br/>• OS: Ubuntu 24.04 / NixOS<br/>• Desktop: Xfce4 + CRD Service<br/>• Tooling: Nix Toolchain + agy"]
 
             DISK[("Secondary Disk: <code>workstation-mirror-data</code><br/>• 200 GB SSD (/mnt/data)<br/>• Persistent /home bind-mount")]
 

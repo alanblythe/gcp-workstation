@@ -7,13 +7,13 @@
 #   1. Installs Nix (Determinate, multi-user) if not already present.
 #   2. Installs the workstation toolchain via a pinned Nix profile flake at
 #      infrastructure/nix-profile/. Tools (gcloud, opentofu, pack, jupyter,
-#      gemini-cli, etc.) land in ~/.nix-profile/bin and shadow apt versions.
-#   3. Drops ~/.gemini/settings.json with the IDE+vertex-ai defaults.
+#      ripgrep, etc.) land in ~/.nix-profile/bin and shadow apt versions.
+#   3. Installs Antigravity CLI (agy) if not already present.
+#   4. Drops ~/.gemini/settings.json and ~/.gemini/antigravity-cli/settings.json.
 #
 # What this *doesn't* do:
 #   - Install Docker, Chrome Remote Desktop, the X server, xfce — those are
 #     handled by infrastructure/scripts/startup.sh (apt-driven, system-level).
-#   - Install gemini-cli via npm — superseded by the Nix profile entry.
 
 set -euo pipefail
 
@@ -43,8 +43,15 @@ else
   nix profile install "${REPO_DIR}/infrastructure/nix-profile"
 fi
 
-echo "==> Writing ~/.gemini/settings.json ..."
-mkdir -p ~/.gemini
+echo "==> Installing Antigravity CLI (agy) ..."
+if ! command -v agy &>/dev/null && [ ! -f "${HOME}/.local/bin/agy" ]; then
+  curl -fsSL https://antigravity.google/cli/install.sh | bash
+else
+  echo "    Antigravity CLI (agy) already present; skipping installer."
+fi
+
+echo "==> Writing settings configurations ..."
+mkdir -p ~/.gemini ~/.gemini/antigravity-cli
 cat > ~/.gemini/settings.json <<'EOF'
 {
   "ide": {
@@ -58,6 +65,7 @@ cat > ~/.gemini/settings.json <<'EOF'
   }
 }
 EOF
+cp ~/.gemini/settings.json ~/.gemini/antigravity-cli/settings.json 2>/dev/null || true
 
 echo "==> Configuring VS Code keyring (gnome-libsecret) ..."
 mkdir -p ~/.local/share/keyrings ~/.vscode

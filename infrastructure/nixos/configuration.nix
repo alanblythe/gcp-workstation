@@ -124,7 +124,7 @@ in
     google-cloud-sdk
     opentofu
     pack            # Cloud-Native Buildpacks 'pack' CLI
-    nodejs_22       # for @google/gemini-cli (install via npm into ~/.npm-global)
+    nodejs_22
     python3
     python3Packages.pip
     python3Packages.ipykernel

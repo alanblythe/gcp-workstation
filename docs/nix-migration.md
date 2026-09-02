@@ -8,7 +8,7 @@ The VM today is provisioned by Terraform from `ubuntu-os-cloud/ubuntu-2404-lts-a
 | --- | --- | --- |
 | Boot disk image | `ubuntu-os-cloud/ubuntu-2404-lts-amd64` | Custom NixOS image in `YOUR_PROJECT_ID`, built from `infrastructure/nixos/` |
 | OS bootstrap | `scripts/startup.sh` (Xfce, Chrome, CRD) | Baked into the image via `configuration.nix` |
-| Tooling | `scripts/post-create.sh` (gcloud, gemini-cli, opentofu, pack, jupyter) | `environment.systemPackages` in `configuration.nix` |
+| Tooling | `scripts/post-create.sh` (gcloud, opentofu, pack, jupyter, antigravity-cli) | `environment.systemPackages` in `configuration.nix` |
 | Patching | `google_os_config_patch_deployment` (weekly `apt dist-upgrade`) | Image rebuild from flake; `nix.gc` set to weekly |
 | `/home/<user>` | On boot disk (lost on reimage) | Bind-mounted from `/mnt/data/home/<user>` (survives boot-disk swap) |
 | `/var/lib/docker` | Already on `/mnt/data/docker` | Unchanged |

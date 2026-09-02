@@ -25,7 +25,7 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true;  # gemini-cli, google-cloud-sdk
+        config.allowUnfree = true;  # google-cloud-sdk
       };
     in
     {
@@ -56,9 +56,6 @@
             jupyter
             notebook
           ]))
-
-          # AI tooling — replaces the npm-install of @google/gemini-cli
-          gemini-cli
 
           # General CLI
           git
