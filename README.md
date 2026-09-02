@@ -28,40 +28,45 @@ A repeatable Terraform configuration that provisions:
 
 ```mermaid
 flowchart TB
-    subgraph Client["Local Machine"]
+    subgraph CLIENT["Developer Client"]
         VSCode["VS Code (Remote - SSH)"]
-        Browser["Chrome Remote Desktop Client"]
+        Browser["Chrome Remote Desktop"]
     end
 
-    subgraph GCP["Google Cloud Platform"]
-        IAP["Identity-Aware Proxy (IAP)"]
+    subgraph GCP["Google Cloud Platform Project"]
+        direction TB
 
-        subgraph VPC["VPC Network (Private Subnet)"]
-            subgraph VM["Compute Engine (workstation-vm)"]
-                direction TB
-                OS["Ubuntu 24.04 / NixOS<br/>(No External IP)"]
-                GUI["Xfce4 Desktop &amp; CRD Daemon"]
-                Nix["Nix Flake Toolchain<br/>(gcloud, tofu, pack, gemini)"]
-                Home["/home/user (Bind Mount)"]
-            end
-
-            NAT["Cloud Router &amp; Cloud NAT"]
-            DataDisk[("Persistent SSD<br/>(/mnt/data)")]
+        subgraph SECURITY["Access & Identity"]
+            IAP["Identity-Aware Proxy (IAP)<br/><code>iap.googleapis.com</code>"]
+            SA["IAM Service Account<br/><code>workstation-vm-sa</code>"]
+            POLICY["Resource Policy<br/><code>nightly-shutdown (10:00 PM)</code>"]
         end
 
-        Shutdown["Nightly Shutdown Policy<br/>(10:00 PM Stop)"]
+        subgraph VPC["VPC Network: <code>workstation-vpc</code>"]
+            SUBNET["Subnet: <code>workstation-subnet</code><br/>(10.10.0.0/24 - Private IP Only)"]
+
+            VM["Compute Engine VM: <code>workstation-vm</code><br/>• Machine: n2-standard-8 (No Public IP)<br/>• OS: Ubuntu 24.04 / NixOS<br/>• Desktop: Xfce4 + CRD Service<br/>• Tooling: Nix Flake Profile"]
+
+            DISK[("Secondary Disk: <code>workstation-mirror-data</code><br/>• 200 GB SSD (/mnt/data)<br/>• Persistent /home bind-mount")]
+
+            NAT["Cloud Router & Cloud NAT<br/><code>workstation-nat</code>"]
+        end
     end
 
-    Internet["Internet / Package Mirrors"]
+    INTERNET["Internet / Package Mirrors"]
 
+    %% Traffic flows
     VSCode -->|"SSH via IAP (Port 22)"| IAP
-    IAP --> OS
-    Browser -->|"WebRTC Session"| GUI
-    VM --- DataDisk
-    DataDisk -.->|"Bind Mount"| Home
-    OS --> NAT
-    NAT -->|"Outbound Egress"| Internet
-    Shutdown -.->|"Automated Stop"| VM
+    IAP -->|"Private TCP Forwarding"| VM
+    Browser -->|"WebRTC Desktop Stream"| VM
+
+    VM ---|"Attaches Secondary Storage"| DISK
+    SA -.->|"IAM Roles & Logging"| VM
+    POLICY -.->|"Nightly Stop Schedule"| VM
+
+    VM -->|"Outbound Requests"| SUBNET
+    SUBNET --> NAT
+    NAT -->|"Outbound NAT Egress"| INTERNET
 ```
 
 ---
